@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -14,27 +17,50 @@ android {
         consumerProguardFiles rootProject.ext.versions["consumerProguardFiles"]
     }
 
+    buildFeatures {
+        dataBinding = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility rootProject.ext.versions["javaSDKVersion"]
         targetCompatibility rootProject.ext.versions["javaSDKVersion"]
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    api rootProject.ext.dependencies["core-ktx"]
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["material"]
-    api rootProject.ext.dependencies["constraintlayout"]
-    api rootProject.ext.dependencies["junit"]
-    api rootProject.ext.dependencies["ext_junit"]
-    api rootProject.ext.dependencies["espresso-cor"]
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["appcompat"]
+    //kotlin
+    implementation rootProject.ext.dependencies["kotlin-stdlib-jdk7"]
+    implementation rootProject.ext.dependencies["core-ktx"]
+    //lifecycle
+    api rootProject.ext.dependencies["lifecycle-runtime-ktx"]
+    api rootProject.ext.dependencies["lifecycle-common-java8"]
+    api rootProject.ext.dependencies["lifecycle-extensions"]
+    // viewModel
+    api rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
+    api rootProject.ext.dependencies["fragment-ktx"]
+    // liveData
+    api rootProject.ext.dependencies["lifecycle-livedata-ktx"]
+    api rootProject.ext.dependencies["unpeek-livedata"]
+    //navigation
+    api rootProject.ext.dependencies["navigation-fragment-ktx"]
+    api rootProject.ext.dependencies["navigation-ui-ktx"]
+    //retrofit
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["converter-gson"]
+    api rootProject.ext.dependencies["PersistentCookieJar"]
+    //动态替换BaseUrl库 使用可参考 https://github.com/JessYanCoding/RetrofitUrlManager
+    api rootProject.ext.dependencies["retrofit-url-manager"]
 }
